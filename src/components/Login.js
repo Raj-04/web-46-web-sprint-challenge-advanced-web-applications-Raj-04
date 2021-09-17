@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import axiosWithAuth from '../helpers/axiosWithAuth';
 import { useHistory } from 'react-router-dom';
 
-const initialValues = {username: 'Lambda', password: 'School'}
+const initialValues = {
+  username: '', 
+  password: ''
+}
 
 const Login = () => {
   // make a post request to retrieve a token from the api
@@ -21,7 +24,7 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (formValues.username !== 'Lambda' || formValues.password !== 'School') {
-      setError('Enter valid username and password')
+      setError('Username or Password not valid')
     }
 
     axiosWithAuth()
@@ -32,7 +35,7 @@ const Login = () => {
           push('/bubblepage')
         })
         .catch((err) => {
-          console.error({err})
+          console.log({err})
         })
   }
 
@@ -42,18 +45,25 @@ const Login = () => {
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
-        <h2>Build login form here</h2>
+        {/* <h2>Build login form here</h2> */}
       </div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='username'>UserName</label>
+        <label htmlFor='username'>
+          UserName
+          </label><br/>
+
         <input 
           id='username'
           data-testid='username'
           name='username'
           value={formValues.username}
           onChange={handleChanges}
-        />
-        <label htmlFor='password'>Password</label>
+        /><br/>
+
+        <label htmlFor='password'>
+          Password
+          </label><br/>
+
         <input 
           id='password'
           data-testid='password'
@@ -61,11 +71,12 @@ const Login = () => {
           type='password'
           value={formValues.password}
           onChange={handleChanges}
-        />
-        <button>Login</button>
+        /><br/>
+
+        <button id='submit'>Login</button>
       </form>
 
-      <p data-testid="errorMessage" className="error">{error}</p>
+      <p data-testid="error" className="error">{error}</p>
     </div>
   );
 };

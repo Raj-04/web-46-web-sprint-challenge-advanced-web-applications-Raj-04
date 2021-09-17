@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axiosWithAuth from '../helpers/axiosWithAuth';
 
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
@@ -13,10 +14,38 @@ const BubblePage = () => {
   };
 
   const saveEdit = (editColor) => {
+    axiosWithAuth()
+    .put(`/api/colors/${editColor.id}`, editColor)
+      .then((res) => {
+        console.log(res)
+
+        const index = colors.findIndex((color) => color.id === editColor.id)
+        colors[index] = editColor
+        setColors([
+          ...colors
+        ])
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   };
 
   const deleteColor = (colorToDelete) => {
+    axiosWithAuth()
+      .delete(`/api/colors/${colorToDelete.id}`)
+        .then((res) => {
+          setColors(colors.filter(color => color.id !== colorToDelete.id))
+        })
+        .catch((err) => {
+          console.error(err)
+        })
   };
+
+  useEffect(() => {
+    fetchColorService().then((res) => {
+      setColors(res)
+    })
+  }, [])
 
   return (
     <div className="container">
@@ -31,3 +60,5 @@ export default BubblePage;
 //Task List:
 //1. When the component mounts, make an axios call to retrieve all color data and push to state.
 //2. Complete toggleEdit, saveEdit, deleteColor and functions
+
+
