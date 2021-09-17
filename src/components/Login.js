@@ -76,7 +76,7 @@ const Login = () => {
         <button id='submit'>Login</button>
       </form>
 
-      <p data-testid="error" className="error">{error}</p>
+      <p id='error' data-testid="error" className="error">{error}</p>
     </div>
   );
 };
